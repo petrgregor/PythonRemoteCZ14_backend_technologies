@@ -19,6 +19,15 @@ from viewer.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('hello/<s>/', hello),
     path('hello2', hello2),
+    path('hello3/<str:s0>/', hello3),
+
+    path('', home, name='home'),
+    path('movies/', movies, name='movies'),
+    path('movie/<pk>/', movie, name='movie'),
+    path('actors/', actors, name='actors'),
+    path('directors/', directors, name='directors'),
+    path('person/<pk>/', person, name='person'),
 ]

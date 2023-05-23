@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for adjective in adjectives %}
+        <p>This is a {{ adjective }} world.</p>
+    {% endfor %}
+{% endblock %}

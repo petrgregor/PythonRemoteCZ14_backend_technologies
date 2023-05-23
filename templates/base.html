@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hollymovies</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<h1>Hollymovies database</h1>
+
+{% include 'navbar.html' %}
+
+<div class="main-content">
+    {% block content %} {% endblock %}
+</div>
+
+</body>
+</html>

@@ -4,26 +4,26 @@ Online filmová databáze.
 
 Funkcionalita:
 - zobrazovat informace o filmu
-  - zobrazit název filmu
-  - jména herců
-  - jméno režiséra
-  - rok natočení
+  -[x] zobrazit název filmu
+  -[x] jména herců
+  -[x] jméno režiséra
+  -[x] rok natočení
   - dostupnost (streamovací platformy)
-  - popis
+  -[x] popis
   - hodnocení
-  - státy
-  - jazyk
+  -[x] státy
+  -[x] jazyk
   - film/seriál
-  - žánry
+  -[x] žánry
   - počet dílů/pokračování
-  - PG - přístupnost (od jakého věku je dostupný)
-  - délka filmu
-  - čas děje - odkaz na přechozí/následující díl
+  -[x] PG - přístupnost (od jakého věku je dostupný)
+  -[x] délka filmu
+  -[x] čas děje - odkaz na přechozí/následující díl
   - ocenění
 - filtrovat filmy podle žánru
 - filtrovat filmy pro dospělé a pro děti
 - seznam filmů dle:
-  - abecedy
+  -[x] abecedy
   - hodnocení
   - délka
   - dle herce
@@ -40,3 +40,7 @@ Funkcionalita:
     - hodnotit
     - komentovat
 - notifikace (pro nově přidaný film)
+- vyhledávání
+  - dle názvu filmu
+  - dle jména herce/režiséra
+  - dle textu v popisu

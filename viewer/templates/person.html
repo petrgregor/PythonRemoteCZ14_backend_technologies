@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="person-names">
+    <span class="person-first-name"> {{ person.first_name}} </span>
+    <span class="person-last-name"> {{ person.last_name }} </span>
+</div>
+<div class="person-birth-date">
+    Datum narození: {{ person.birth_date }}
+</div>
+<div class="person-sex">
+    Pohlaví:
+    {% if person.sex %}
+        žena
+    {% else %}
+        muž
+    {% endif %}
+</div>
+<div class="person-country">
+    {{ person.country }}
+</div>
+  <div class="person-created">
+    Vytvořeno: {{ person.created }}
+  </div>
+  <div class="person-updated">
+    Poslední změna: {{ person.updated }}
+  </div>
+{% endblock %}

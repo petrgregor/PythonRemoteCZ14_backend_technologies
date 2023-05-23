@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="movie-title">{{ movie.title }}</div>
+  <div class="movie-title-cz">{{ movie.title_cz }}</div>
+  <div class="movie-year">Rok: {{ movie.year }}</div>
+  <div class="movie-genres">
+    Žánr:
+    {% for genre in genres %}
+      {{ genre }}
+    {% endfor %}
+  </div>
+  <div class="movie-countries">
+    Země:
+    {% for country in countries %}
+      {{ country }}
+    {% endfor %}
+  </div>
+  <div class="movie-actors">
+    Herci:
+    {% for actor in actors %}
+      {{ actor }}
+    {% endfor %}
+  </div>
+  <div class="movie-directors">
+    Režie:
+    {% for director in directors %}
+      {{ director }}
+    {% endfor %}
+  </div>
+  <div class="movie-description">
+    Popis:
+    {{ movie.description }}
+  </div>
+  <div class="movie-language">
+    Jazyk:
+    {{ movie.language }}
+  </div>
+  <div class="movie-pg-rating">
+    PG rating: {{ movie.pg_rating }}
+  </div>
+  <div class="movie-length">
+    Délka: {{ movie.length }}
+  </div>
+  {% if movie.previous_part %}
+    <div class="movie-previous-part">
+      Předchozí díl: <a href="{% url 'movie' movie.previous_part.id %}">{{ movie.previous_part }}</a>
+    </div>
+  {% endif %}
+  <div class="movie-created">
+    Vytvořeno: {{ movie.created }}
+  </div>
+  <div class="movie-updated">
+    Poslední změna: {{ movie.updated }}
+  </div>
+{% endblock %}
