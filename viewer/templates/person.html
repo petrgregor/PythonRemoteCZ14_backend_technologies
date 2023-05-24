@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{{ person.first_name}} {{ person.last_name}}
+{% endblock %}
+
 {% block content %}
 <div class="person-names">
     <span class="person-first-name"> {{ person.first_name}} </span>
@@ -19,6 +23,26 @@
 <div class="person-country">
     {{ person.country }}
 </div>
+
+<div class="person-acting">
+    <h3>Hrál ve filmech:</h3>
+    <ul>
+        {% for movie in acting %}
+            <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="person-acting">
+    <h3>Režíroval filmy:</h3>
+    <ul>
+        {% for movie in directing %}
+            <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+
   <div class="person-created">
     Vytvořeno: {{ person.created }}
   </div>

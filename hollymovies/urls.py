@@ -26,8 +26,12 @@ urlpatterns = [
 
     path('', home, name='home'),
     path('movies/', movies, name='movies'),
+    path('movies_by_length/<order>/', movies_by_length, name='movies_by_length'),
+    path('movies_by_year/<order>/', movies_by_year, name='movies_by_year'),
     path('movie/<pk>/', movie, name='movie'),
     path('actors/', actors, name='actors'),
     path('directors/', directors, name='directors'),
     path('person/<pk>/', person, name='person'),
+    path('search/', search, name='search'),
+    path('filter_movie/<s>/', filter_movie, name='filter_movie'),
 ]

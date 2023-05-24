@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
 
+{% block title %}
+List of movies
+{% endblock %}
+
 {% block content %}
 <h2>List of all movies:</h2>
+  <div class="movies-by-length">Seřadit dle délky
+    <a href="{% url 'movies_by_length' 'asc' %}">od nejkratšího filmu</a>
+    <a href="{% url 'movies_by_length' 'desc' %}">od nejdelšího filmu</a>
+  </div>
+  <div class="movies-by-year">Seřadit dle roku
+    <a href="{% url 'movies_by_year' 'asc' %}">od nejstaršího filmu</a>
+    <a href="{% url 'movies_by_year' 'desc' %}">od nejmladšího filmu</a>
+  </div>
+  <div class="filter-movie">
+    Filter:
+    {% for genre in genres %}
+      {% comment 'TODO: změnit na select' %} {% endcomment %}
+      <a href="{% url 'filter_movie' genre %}">{{ genre }}</a>
+    {% endfor %}
+  </div>
   <ul>
     {% for movie in movies %}
       <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>

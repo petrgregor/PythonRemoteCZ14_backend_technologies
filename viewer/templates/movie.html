@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{{ movie.title }}
+{% endblock %}
+
 {% block content %}
   <div class="movie-title">{{ movie.title }}</div>
   <div class="movie-title-cz">{{ movie.title_cz }}</div>
@@ -19,13 +23,13 @@
   <div class="movie-actors">
     Herci:
     {% for actor in actors %}
-      {{ actor }}
+      <a href="{% url 'person' actor.id %}"> {{ actor }} </a>
     {% endfor %}
   </div>
   <div class="movie-directors">
     Režie:
     {% for director in directors %}
-      {{ director }}
+      <a href="{% url 'person' director.id %}"> {{ director }} </a>
     {% endfor %}
   </div>
   <div class="movie-description">

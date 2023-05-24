@@ -4,12 +4,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hollymovies</title>
+    <title>{% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
 
 <h1>Hollymovies database</h1>
+
+<div id="search">
+    <form method="post" action="/search/">
+        {% csrf_token %}
+        <label for="search">Search:</label>
+        <input class="text" name="search">
+    </form>
+</div>
 
 {% include 'navbar.html' %}
 

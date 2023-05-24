@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Search results
+{% endblock %}
+
+{% block content %}
+  <div class="search-result">
+    Results for "{{ pattern }}":
+  </div>
+
+  <h2>Movies by title:</h2>
+    <ul>
+    {% for movie in movies_title %}
+      <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+    {% empty %}
+      <li>Sorry, no movie in this list.</li>
+    {% endfor %}
+    </ul>
+  <h2>Movies by Czech title:</h2>
+    <ul>
+    {% for movie in movies_title_cz %}
+      <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+    {% empty %}
+      <li>Sorry, no movie in this list.</li>
+    {% endfor %}
+    </ul>
+  <h2>Movies by description:</h2>
+    <ul>
+    {% for movie in movies_description %}
+      <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+    {% empty %}
+      <li>Sorry, no movie in this list.</li>
+    {% endfor %}
+    </ul>
+  <h2>Persons by first name:</h2>
+    <ul>
+    {% for person in persons_first_name %}
+      <li><a href="{% url 'person' person.id %}">{{ person }}</a></li>
+    {% empty %}
+      <li>Sorry, no person in this list.</li>
+    {% endfor %}
+    </ul>
+  <h2>Persons by last name:</h2>
+    <ul>
+    {% for person in persons_last_name %}
+      <li><a href="{% url 'person' person.id %}">{{ person }}</a></li>
+    {% empty %}
+      <li>Sorry, no person in this list.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -25,9 +25,9 @@ Funkcionalita:
 - seznam filmů dle:
   -[x] abecedy
   - hodnocení
-  - délka
-  - dle herce
-  - dle režiséra
+  -[x] délka
+  -[x] dle herce
+  -[x] dle režiséra
   - dle ocenění
 - u série zobrazit dle chronologie děje
 - doporučení podobných filmů
@@ -40,7 +40,8 @@ Funkcionalita:
     - hodnotit
     - komentovat
 - notifikace (pro nově přidaný film)
-- vyhledávání
-  - dle názvu filmu
-  - dle jména herce/režiséra
-  - dle textu v popisu
+-[x] vyhledávání
+  -[x] dle originálního názvu filmu
+  -[x] dle českého názvu filmu
+  -[x] dle jména a příjmení herce/režiséra
+  -[x] dle textu v popisu
