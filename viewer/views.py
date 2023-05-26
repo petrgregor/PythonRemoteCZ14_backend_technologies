@@ -1,5 +1,10 @@
+from django.core.exceptions import ValidationError
+from django.forms import Form, CharField, ModelForm
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import TemplateView, ListView, FormView, CreateView
 
 from viewer.models import Movie, Person, Genre, Country
 
@@ -34,6 +39,33 @@ def movies(request):
     return render(request, template_name='movies.html', context=context)
 
 
+"""
+# Class-based view - verze pomocí metody
+class MoviesView(View):
+    def get(self, request):
+        movie_list = Movie.objects.all()
+        genres = Genre.objects.all()
+        context = {'movies': movie_list, 'genres': genres}
+        return render(request, template_name='movies.html', context=context)
+"""
+
+
+# Class-based view - verze pomocí TemplateView
+class MoviesView(TemplateView):
+    template_name = 'movies.html'
+    movies = Movie.objects.all()
+    genres = Genre.objects.all()
+    extra_context = {'movies': movies, 'genres': genres}
+
+
+"""
+# Class-based view - verze pomocí ListView
+class MoviesView2(ListView):
+    template_name = 'movies.html'
+    model = Movie
+"""
+
+
 def movies_by_length(request, order):
     movies = Movie.objects.all().order_by('length')
     if order == 'desc':
@@ -61,6 +93,17 @@ def actors(request):
     return render(request, template_name='actors.html', context=context)
 
 
+# Class-based view - TemplateView
+class ActorsView(TemplateView):
+    template_name = 'actors.html'
+    persons_list = Person.objects.all()
+    actors_list = []
+    for person in persons_list:
+        if Movie.objects.filter(actors=person).count() > 0:
+            actors_list.append(person)
+    extra_context = {'actors': actors_list}
+
+
 def directors(request):
     persons_list = Person.objects.all()
     directors_list = []
@@ -69,6 +112,17 @@ def directors(request):
             directors_list.append(person)
     context = {'directors': directors_list}
     return render(request, template_name='directors.html', context=context)
+
+
+# Class-based view - TemplateView
+class DirectorsView(TemplateView):
+    template_name = 'directors.html'
+    persons_list = Person.objects.all()
+    directors_list = []
+    for person in persons_list:
+        if Movie.objects.filter(directors=person).count() > 0:
+            directors_list.append(person)
+    extra_context = {'directors': directors_list}
 
 
 def movie(request, pk):
@@ -116,3 +170,109 @@ def filter_movie(request, s):
     genres = Genre.objects.all()
     context = {'movies': movies, 'genres': genres}
     return render(request, 'movies.html', context)
+
+
+# Přidávání Country do databáze pomocí dvou view
+# Tato view zobrazí formulář pro přidání nové země
+def new_country(request):
+    return render(request, 'new_country.html')
+
+
+# Tato view zpracuje formulář pro přidání nové země
+def add_country(request):
+    context = {}
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        abbreviation = request.POST.get('abbreviation')
+        if Country.objects.filter(name__iexact=name).count() > 0 or \
+                Country.objects.filter(abbreviation__iexact=abbreviation).count() > 0:
+            context = {'message': f"This country is in database."}
+        elif len(abbreviation) > 3:
+            context = {'message': f"Abbreviation can be maximum 3 letters."}
+        elif len(name) < 3:
+            context = {'message': f"Name must can be minimum 3 letters."}
+        else:
+            country = Country(name=name, abbreviation=abbreviation)
+            country.save()
+            context = {'message': f"Country '{country}' added to database."}  # vypsat potvrzení o úspěšném zápisu do databáze.
+    return render(request, 'home.html', context)
+
+
+# Přidávání Country do databáze pomocí jedné view
+def new_country2(request):
+    context = {}
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        abbreviation = request.POST.get('abbreviation')
+        if Country.objects.filter(name__iexact=name).count() > 0 or \
+                Country.objects.filter(abbreviation__iexact=abbreviation).count() > 0:
+            context = {'message': f"This country is in database."}
+        elif len(abbreviation) > 3:
+            context = {'message': f"Abbreviation can be maximum 3 letters."}
+        elif len(name) < 3:
+            context = {'message': f"Name must can be minimum 3 letters."}
+        else:
+            country = Country(name=name, abbreviation=abbreviation)
+            country.save()
+            context = {
+                'message': f"Country '{country}' added to database."}  # vypsat potvrzení o úspěšném zápisu do databáze.
+    else:
+        return render(request, 'new_country2.html')  # zobrazí se formulář
+    return render(request, 'home.html', context)
+
+
+# základní možnost vytvoření formuláře
+"""
+class CountryForm(Form):
+    name = CharField(max_length=32)
+    abbreviation = CharField(max_length=3)
+
+    def clean_name(self):
+        pass
+
+    def clean_abbreviation(self):
+        pass
+
+    def clean(self):
+        pass
+        
+        
+class CountryCreateView(FormView):
+    template_name = 'new_country3.html'
+    form_class = CountryForm
+"""
+
+
+class CountryForm(ModelForm):
+
+    class Meta:
+        model = Country
+        fields = '__all__'
+        #fields = ['abbreviation', 'name']  # pomocí fields lze i měnit pořadí položek ve formuláři
+        #exclude = ['abbreviation']
+
+    def clean_name(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name').strip()
+        if name is None:
+            raise ValidationError('Name can not be empty.')
+        if len(name) < 3:
+            raise ValidationError('Name should have minimum 3 letters.')
+        name = name.title()
+        return name
+
+    def clean_abbreviation(self):
+        cleaned_data = super().clean()
+        abbreviation = cleaned_data.get('abbreviation').strip()
+        if abbreviation is None:
+            raise ValidationError('Abbreviation can not be empty.')
+        if len(abbreviation) > 3:
+            raise ValidationError('Abbraviation should have maximum 3 letters.')
+        abbreviation = abbreviation.upper()
+        return abbreviation
+
+
+class CountryCreateView(CreateView):
+    template_name = 'new_country3.html'
+    form_class = CountryForm
+    success_url = reverse_lazy('home')

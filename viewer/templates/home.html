@@ -6,4 +6,9 @@ Hollymovies
 
 {% block content %}
   <h2>Welcome in our movie database.</h2>
+  {% if message %}
+    <div class="message">
+      {{ message }}
+    </div>
+  {% endif %}
 {% endblock %}

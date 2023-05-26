@@ -25,13 +25,26 @@ urlpatterns = [
     path('hello3/<str:s0>/', hello3),
 
     path('', home, name='home'),
-    path('movies/', movies, name='movies'),
+    # path('movies/', movies, name='movies'),  # view pomocí funkce
+    path('movies/', MoviesView.as_view(), name='movies'),  # view pomocí třídy
     path('movies_by_length/<order>/', movies_by_length, name='movies_by_length'),
     path('movies_by_year/<order>/', movies_by_year, name='movies_by_year'),
     path('movie/<pk>/', movie, name='movie'),
-    path('actors/', actors, name='actors'),
-    path('directors/', directors, name='directors'),
+    # path('actors/', actors, name='actors'),  # view pomocí funkce
+    path('actors/', ActorsView.as_view(), name='actors'),  # view pomocí třídy (TemplateView)
+    # path('directors/', directors, name='directors'),  # view pomocí funkce
+    path('directors/', DirectorsView.as_view(), name='directors'),  # view pomocí třídy (TemplateView)
     path('person/<pk>/', person, name='person'),
     path('search/', search, name='search'),
     path('filter_movie/<s>/', filter_movie, name='filter_movie'),
+
+    # new_country pomocí dvou view
+    # path('new_country/', new_country, name='new_country'),
+    # path('add_country/', add_country, name='add_country'),
+
+    # new_country pomocí jedné view
+    # path('new_country/', new_country2, name='new_country'),
+
+    # new_country pomocí CountryCreateView
+    path('new_country/', CountryCreateView.as_view(), name='new_country'),
 ]

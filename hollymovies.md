@@ -20,7 +20,7 @@ Funkcionalita:
   -[x] délka filmu
   -[x] čas děje - odkaz na přechozí/následující díl
   - ocenění
-- filtrovat filmy podle žánru
+-[x] filtrovat filmy podle žánru
 - filtrovat filmy pro dospělé a pro děti
 - seznam filmů dle:
   -[x] abecedy
@@ -33,6 +33,7 @@ Funkcionalita:
 - doporučení podobných filmů
 - uživatelské skupiny: 
   - admin:
+    - přidávání nové země 
     - přidávání nového filmu
     - přidávání nového herce
     - přidávání nového režiséra
