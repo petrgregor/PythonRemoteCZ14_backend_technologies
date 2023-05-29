@@ -5,8 +5,8 @@ from django.db.models import Model, CharField, DateField, BooleanField, ForeignK
 
 
 class Country(Model):
-    name = CharField(max_length=32)
-    abbreviation = CharField(max_length=3)
+    name = CharField(max_length=32, unique=True)
+    abbreviation = CharField(max_length=3, unique=True)
 
     class Meta:
         verbose_name_plural = "Countries"

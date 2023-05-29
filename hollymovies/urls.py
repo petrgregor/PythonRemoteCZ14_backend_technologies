@@ -47,4 +47,8 @@ urlpatterns = [
 
     # new_country pomocí CountryCreateView
     path('new_country/', CountryCreateView.as_view(), name='new_country'),
+    path('country/update/<pk>/', CountryUpdateView.as_view(), name='country_update'),
+    path('country/delete/<pk>/', CountryDeleteView.as_view(), name='country_delete'),
+    path('countries/', countries, name='countries'),
+
 ]

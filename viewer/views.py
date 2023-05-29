@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, FormView, CreateView
+from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
 
 from viewer.models import Movie, Person, Genre, Country
 
@@ -267,7 +267,7 @@ class CountryForm(ModelForm):
         if abbreviation is None:
             raise ValidationError('Abbreviation can not be empty.')
         if len(abbreviation) > 3:
-            raise ValidationError('Abbraviation should have maximum 3 letters.')
+            raise ValidationError('Abbreviation should have maximum 3 letters.')
         abbreviation = abbreviation.upper()
         return abbreviation
 
@@ -275,4 +275,23 @@ class CountryForm(ModelForm):
 class CountryCreateView(CreateView):
     template_name = 'new_country3.html'
     form_class = CountryForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('countries')
+
+
+class CountryUpdateView(UpdateView):
+    template_name = 'new_country3.html'
+    model = Country
+    form_class = CountryForm
+    success_url = reverse_lazy('countries')
+
+
+class CountryDeleteView(DeleteView):
+    template_name = 'country_delete_confirm.html'
+    model = Country
+    success_url = reverse_lazy('countries')
+
+
+def countries(request):
+    countries = Country.objects.all()
+    context = {'countries': countries}
+    return render(request, 'countries.html', context)
