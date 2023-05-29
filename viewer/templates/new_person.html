@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}New person{% endblock %}
+
+{% block content %}
+    <h2>Add new person:</h2>
+    <div class="new-person-form">
+        <form method="post" action="">
+            {% csrf_token %}
+                <table>
+                  {{ form.as_table }}
+                </table>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

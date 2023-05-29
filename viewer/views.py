@@ -243,6 +243,12 @@ class CountryCreateView(FormView):
 """
 
 
+def countries(request):
+    countries = Country.objects.all()
+    context = {'countries': countries}
+    return render(request, 'countries.html', context)
+
+
 class CountryForm(ModelForm):
 
     class Meta:
@@ -291,7 +297,107 @@ class CountryDeleteView(DeleteView):
     success_url = reverse_lazy('countries')
 
 
-def countries(request):
-    countries = Country.objects.all()
-    context = {'countries': countries}
-    return render(request, 'countries.html', context)
+def genres(request):
+    genres = Genre.objects.all()
+    context = {'genres': genres}
+    return render(request, 'genres.html', context)
+
+
+class GenreForm(ModelForm):
+
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+    def clean_name(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name').strip()
+        if name is None:
+            raise ValidationError('Name can not be empty.')
+        if len(name) < 3:
+            raise ValidationError('Name should have minimum 3 letters.')
+        name = name.title()
+        return name
+
+
+class GenreCreateView(CreateView):
+    template_name = 'new_genre.html'
+    form_class = GenreForm
+    success_url = reverse_lazy('genres')
+
+
+class GenreUpdateView(UpdateView):
+    template_name = 'new_genre.html'
+    model = Genre
+    form_class = GenreForm
+    success_url = reverse_lazy('genres')
+
+
+class GenreDeleteView(DeleteView):
+    template_name = 'genre_delete_confirm.html'
+    model = Genre
+    success_url = reverse_lazy('genres')
+
+
+def persons(request):
+    persons = Person.objects.all()
+    context = {'persons': persons}
+    return render(request, 'persons.html', context)
+
+
+class PersonForm(ModelForm):
+
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+    def clean_name(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name').strip()
+        name = name.title()
+        return name
+
+
+class PersonCreateView(CreateView):
+    template_name = 'new_person.html'
+    form_class = PersonForm
+    success_url = reverse_lazy('persons')
+
+
+class PersonUpdateView(UpdateView):
+    template_name = 'new_person.html'
+    model = Person
+    form_class = PersonForm
+    success_url = reverse_lazy('persons')
+
+
+class PersonDeleteView(DeleteView):
+    template_name = 'person_delete_confirm.html'
+    model = Person
+    success_url = reverse_lazy('persons')
+
+
+class MovieForm(ModelForm):
+
+    class Meta:
+        model = Movie
+        fields = '__all__'
+
+
+class MovieCreateView(CreateView):
+    template_name = 'new_movie.html'
+    form_class = MovieForm
+    success_url = reverse_lazy('movies')
+
+
+class MovieUpdateView(UpdateView):
+    template_name = 'new_movie.html'
+    model = Movie
+    form_class = MovieForm
+    success_url = reverse_lazy('movies')
+
+
+class MovieDeleteView(DeleteView):
+    template_name = 'movie_delete_confirm.html'
+    model = Movie
+    success_url = reverse_lazy('movies')

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+List of persons
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'new_person' %}">Create new person.</a>
+<h2>List of all persons:</h2>
+  <ul>
+      {% for person in persons %}
+        <li>{{ person }}
+            <a href="{% url 'person_update' person.id %}">edit</a>
+            <a href="{% url 'person_delete' person.id %}">delete</a>
+        </li>
+      {% empty %}
+        <li>List is empty</li>
+      {% endfor %}
+  </ul>
+{% endblock %}

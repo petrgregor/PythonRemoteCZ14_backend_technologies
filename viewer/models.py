@@ -33,7 +33,7 @@ class Person(Model):
 
 
 class Genre(Model):
-    name = CharField(max_length=32)
+    name = CharField(max_length=32, unique=True)
 
     class Meta:
         ordering = ['name']

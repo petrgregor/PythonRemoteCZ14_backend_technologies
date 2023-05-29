@@ -5,6 +5,7 @@ List of movies
 {% endblock %}
 
 {% block content %}
+<a href="{% url 'new_movie' %}">Create new movie.</a>
 <h2>List of all movies:</h2>
   <div class="movies-by-length">Seřadit dle délky
     <a href="{% url 'movies_by_length' 'asc' %}">od nejkratšího filmu</a>
@@ -23,7 +24,11 @@ List of movies
   </div>
   <ul>
     {% for movie in movies %}
-      <li><a href="{% url 'movie' movie.id %}">{{ movie }}</a></li>
+      <li>
+        <a href="{% url 'movie' movie.id %}">{{ movie }}</a>
+        <a href="{% url 'movie_update' movie.id %}">edit</a>
+        <a href="{% url 'movie_delete' movie.id %}">delete</a>
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}

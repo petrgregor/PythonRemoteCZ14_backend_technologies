@@ -30,7 +30,7 @@ urlpatterns = [
     path('movies_by_length/<order>/', movies_by_length, name='movies_by_length'),
     path('movies_by_year/<order>/', movies_by_year, name='movies_by_year'),
     path('movie/<pk>/', movie, name='movie'),
-    # path('actors/', actors, name='actors'),  # view pomocí funkce
+    #path('actors/', actors, name='actors'),  # view pomocí funkce
     path('actors/', ActorsView.as_view(), name='actors'),  # view pomocí třídy (TemplateView)
     # path('directors/', directors, name='directors'),  # view pomocí funkce
     path('directors/', DirectorsView.as_view(), name='directors'),  # view pomocí třídy (TemplateView)
@@ -50,5 +50,19 @@ urlpatterns = [
     path('country/update/<pk>/', CountryUpdateView.as_view(), name='country_update'),
     path('country/delete/<pk>/', CountryDeleteView.as_view(), name='country_delete'),
     path('countries/', countries, name='countries'),
+
+    path('genres/', genres, name='genres'),
+    path('new_genre/', GenreCreateView.as_view(), name='new_genre'),
+    path('genre/update/<pk>/', GenreUpdateView.as_view(), name='genre_update'),
+    path('genre/delete/<pk>/', GenreDeleteView.as_view(), name='genre_delete'),
+
+    path('persons/', persons, name='persons'),
+    path('new_person/', PersonCreateView.as_view(), name='new_person'),
+    path('person/update/<pk>/', PersonUpdateView.as_view(), name='person_update'),
+    path('person/delete/<pk>/', PersonDeleteView.as_view(), name='person_delete'),
+
+    path('new_movie/', MovieCreateView.as_view(), name='new_movie'),
+    path('movie/update/<pk>/', MovieUpdateView.as_view(), name='movie_update'),
+    path('movie/delete/<pk>/', MovieDeleteView.as_view(), name='movie_delete'),
 
 ]
