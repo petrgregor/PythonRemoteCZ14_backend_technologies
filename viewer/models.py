@@ -17,8 +17,8 @@ class Country(Model):
 
 
 class Person(Model):
-    first_name = CharField(max_length=32, null=True)
-    last_name = CharField(max_length=32, null=True)
+    first_name = CharField(max_length=32, null=True, blank=True)
+    last_name = CharField(max_length=32, null=True, blank=True)
     birth_date = DateField(null=True)
     sex = BooleanField(null=True)  # M=0, F=1
     country = ForeignKey(Country, null=True, on_delete=SET_NULL)

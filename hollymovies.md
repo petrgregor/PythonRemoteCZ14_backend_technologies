@@ -33,10 +33,11 @@ Funkcionalita:
 - doporučení podobných filmů
 - uživatelské skupiny: 
   - admin:
-    - přidávání nové země 
-    - přidávání nového filmu
-    - přidávání nového herce
-    - přidávání nového režiséra
+    -[x] přidávání nové země
+    -[x] přidávání nového žánru
+    -[x] přidávání nového filmu
+    -[x] přidávání nového herce
+    -[x] přidávání nového režiséra
   - přihlášený uživatel:
     - hodnotit
     - komentovat

@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from django.core.exceptions import ValidationError
-from django.forms import Form, CharField, ModelForm
+from django.forms import Form, CharField, ModelForm, DateField
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -351,11 +353,34 @@ class PersonForm(ModelForm):
         model = Person
         fields = '__all__'
 
-    def clean_name(self):
+    """
+    def clean_first_name(self):
         cleaned_data = super().clean()
-        name = cleaned_data.get('name').strip()
-        name = name.title()
-        return name
+        first_name = cleaned_data.get('first_name').strip()
+        return first_name
+
+    def clean_last_name(self):
+        cleaned_data = super().clean()
+        last_name = cleaned_data.get('last_name').strip()
+        return last_name
+    """
+
+    def clean(self):
+        cleaned_data = super().clean()
+        """
+        first_name = cleaned_data.get('first_name').strip()
+        last_name = cleaned_data.get('last_name').strip()
+        if first_name == "" and last_name == "":
+            raise ValidationError("Both first name and last name can not be empty.")
+        """
+
+    def clean_birth_date(self):
+        cleaned_data = super().clean()
+        birth_date = cleaned_data.get('birth_date')
+        #if datetime.date(birth_date) > datetime.today():
+        #    raise ValidationError("Birth date can not be in future.")
+
+    #birth_date = DateField()
 
 
 class PersonCreateView(CreateView):
