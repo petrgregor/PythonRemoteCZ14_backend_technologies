@@ -13,7 +13,7 @@ class Country(Model):
         ordering = ['name']
 
     def __str__(self):
-        return self.name + " (" + self.abbreviation + ")"
+        return f"{self.name} ({self.abbreviation})"
 
 
 class Person(Model):
@@ -29,7 +29,7 @@ class Person(Model):
         ordering = ['last_name', 'first_name']
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return f"{self.first_name} {self.last_name}"
 
 
 class Genre(Model):

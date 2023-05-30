@@ -7,9 +7,18 @@
     <div class="new-movie-form">
         <form method="post" action="">
             {% csrf_token %}
+            {% comment 'form as table' %}
                 <table>
                   {{ form.as_table }}
                 </table>
+            {% endcomment %}
+            {% comment 'form as paragraphs' %}
+                {{ form.as_p }}
+            {% endcomment %}
+            {% comment 'form as list' %} {% endcomment %}
+            <ul>
+                {{ form.as_ul }}
+            </ul>
             <button type="submit">Save</button>
         </form>
     </div>

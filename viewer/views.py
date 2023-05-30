@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from django.core.exceptions import ValidationError
-from django.forms import Form, CharField, ModelForm, DateField
+from django.forms import Form, CharField, ModelForm, DateField, DateInput
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -253,6 +253,11 @@ def countries(request):
 
 class CountryForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Country
         fields = '__all__'
@@ -268,7 +273,7 @@ class CountryForm(ModelForm):
             raise ValidationError('Name should have minimum 3 letters.')
         name = name.title()
         return name
-
+        
     def clean_abbreviation(self):
         cleaned_data = super().clean()
         abbreviation = cleaned_data.get('abbreviation').strip()
@@ -278,6 +283,21 @@ class CountryForm(ModelForm):
             raise ValidationError('Abbreviation should have maximum 3 letters.')
         abbreviation = abbreviation.upper()
         return abbreviation
+
+    def clean(self):
+        cleaned_data = super().clean()
+        name = cleaned_data.get('name')
+        if name is not None:
+            name = name.strip()
+        else:
+            raise ValidationError('ERROR in name field.')
+        abbreviation = cleaned_data.get('abbreviation')
+        if abbreviation is not None:
+            abbreviation = abbreviation.strip()
+        else:
+            raise ValidationError('ERROR in abbreviation field.')
+        """if name[0] != abbreviation[0]:
+            raise ValidationError('Name and abbreviation must begin with same letter.')"""
 
 
 class CountryCreateView(CreateView):
@@ -374,13 +394,15 @@ class PersonForm(ModelForm):
             raise ValidationError("Both first name and last name can not be empty.")
         """
 
+    """
     def clean_birth_date(self):
         cleaned_data = super().clean()
         birth_date = cleaned_data.get('birth_date')
-        #if datetime.date(birth_date) > datetime.today():
-        #    raise ValidationError("Birth date can not be in future.")
+        if birth_date > date.today():
+            raise ValidationError("Birth date can not be in future.")
+    """
 
-    #birth_date = DateField()
+    birth_date = DateField()
 
 
 class PersonCreateView(CreateView):

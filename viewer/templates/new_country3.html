@@ -7,9 +7,17 @@
     <div class="new-country-form">
         <form method="post" action="">
             {% csrf_token %}
-                <table>
-                  {{ form.as_table }}
-                </table>
+            {{ form.non_field_errors }} {% comment 'Chyby vyvolané v metodě "clean"' %} {% endcomment %}
+            <div class="form-country-name">
+                <label for="{{ form.name.id_for_label }}">Country name:</label>
+                {{ form.name }}
+                {{ form.name.errors }} {% comment 'Chyby vyvolané v metodě "clean_name"' %} {% endcomment %}
+            </div>
+            <div class="form-country-abbreviation">
+                <label for="{{ form.abbreviation.id_for_label }}">Country abbreviation:</label>
+                {{ form.abbreviation }}
+                {{ form.abbreviation.errors }} {% comment 'Chyby vyvolané v metodě "clean_abbreviation"' %} {% endcomment %}
+            </div>
             <button type="submit">Save</button>
         </form>
     </div>
