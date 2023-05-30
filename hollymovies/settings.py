@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_dump_load_utf8',
 
     'viewer',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Set redirect addresses after authentication
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

@@ -1,1 +1,5 @@
 /db.sqlite3
+*/__pycache__/
+viewer/migrations/__pycache__/
+fixtures.json
+ERD.m*
