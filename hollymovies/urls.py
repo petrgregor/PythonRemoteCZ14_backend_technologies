@@ -71,4 +71,6 @@ urlpatterns = [
     path('accounts/signup/', SignUpView.as_view(), name='signup'),  # signup
     path('accounts/', include('django.contrib.auth.urls')),  # login, logout, change password,...
 
+    path('movie_rate/<movie_id>/<rating>/', rate_movie, name='rate_movie'),
+
 ]

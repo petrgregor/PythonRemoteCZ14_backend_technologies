@@ -57,4 +57,13 @@
   <div class="movie-updated">
     Poslední změna: {{ movie.updated }}
   </div>
+  <div class="movie-user-rating">
+    Vote:
+    <a href="{% url 'rate_movie' movie.id 0 %}">👎</a>
+    <a href="{% url 'rate_movie' movie.id 20 %}">⭐</a>
+    <a href="{% url 'rate_movie' movie.id 40 %}">⭐</a>
+    <a href="{% url 'rate_movie' movie.id 60 %}">⭐</a>
+    <a href="{% url 'rate_movie' movie.id 80 %}">⭐</a>
+    <a href="{% url 'rate_movie' movie.id 100 %}">⭐</a>
+  </div>
 {% endblock %}

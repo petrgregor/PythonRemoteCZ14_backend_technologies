@@ -31,15 +31,14 @@ Funkcionalita:
   - dle ocenění
 - u série zobrazit dle chronologie děje
 - doporučení podobných filmů
-- uživatelské skupiny: 
-  - admin:
-    -[x] přidávání nové země
-    -[x] přidávání nového žánru
-    -[x] přidávání nového filmu
-    -[x] přidávání nového herce
-    -[x] přidávání nového režiséra
+-[x] uživatelské skupiny:
+  -[x] přidávání nové země
+  -[x] přidávání nového žánru
+  -[x] přidávání nového filmu
+  -[x] přidávání nového herce
+  -[x] přidávání nového režiséra
   - přihlášený uživatel:
-    - hodnotit
+    - hodnotit (pouze jednou)
     - komentovat
 - notifikace (pro nově přidaný film)
 -[x] vyhledávání

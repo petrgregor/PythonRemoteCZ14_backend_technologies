@@ -20,7 +20,7 @@ class Person(Model):
     first_name = CharField(max_length=32, null=True, blank=True)
     last_name = CharField(max_length=32, null=True, blank=True)
     birth_date = DateField(null=True)
-    sex = BooleanField(null=True)  # M=0, F=1
+    sex = BooleanField(null=True)  # M=0, F=1  # TODO změnit na Female/Male/Unknown/Non-binary
     country = ForeignKey(Country, null=True, on_delete=SET_NULL)
     created = DateTimeField(auto_now_add=True)
     updated = DateTimeField(auto_now=True)
@@ -64,6 +64,8 @@ class Movie(Model):
 
     def __str__(self):
         return f"{self.title} ({self.year})"
+
+    # TODO - spočítat průměrné hodnocení filmu
 
 
 class Rating(Model):

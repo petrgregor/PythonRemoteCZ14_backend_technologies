@@ -1,5 +1,7 @@
 from datetime import datetime, date
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import ValidationError
 from django.forms import Form, CharField, ModelForm, DateField, DateInput
 from django.shortcuts import render
@@ -8,10 +10,11 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
 
-from viewer.models import Movie, Person, Genre, Country
+from viewer.models import Movie, Person, Genre, Country, Rating
 
 
 # regular expression
+@login_required
 def hello(request, s):
     return HttpResponse(f'Hello, {s} world!')
 
@@ -300,23 +303,26 @@ class CountryForm(ModelForm):
             raise ValidationError('Name and abbreviation must begin with same letter.')"""
 
 
-class CountryCreateView(CreateView):
+class CountryCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'new_country3.html'
     form_class = CountryForm
     success_url = reverse_lazy('countries')
+    permission_required = 'viewer.add_country'
 
 
-class CountryUpdateView(UpdateView):
+class CountryUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'new_country3.html'
     model = Country
     form_class = CountryForm
     success_url = reverse_lazy('countries')
+    permission_required = 'viewer.change_country'
 
 
-class CountryDeleteView(DeleteView):
+class CountryDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'country_delete_confirm.html'
     model = Country
     success_url = reverse_lazy('countries')
+    permission_required = 'viewer.delete_country'
 
 
 def genres(request):
@@ -342,12 +348,14 @@ class GenreForm(ModelForm):
         return name
 
 
+# TODO - add permissions
 class GenreCreateView(CreateView):
     template_name = 'new_genre.html'
     form_class = GenreForm
     success_url = reverse_lazy('genres')
 
 
+# TODO - add permissions
 class GenreUpdateView(UpdateView):
     template_name = 'new_genre.html'
     model = Genre
@@ -355,6 +363,7 @@ class GenreUpdateView(UpdateView):
     success_url = reverse_lazy('genres')
 
 
+# TODO - add permissions
 class GenreDeleteView(DeleteView):
     template_name = 'genre_delete_confirm.html'
     model = Genre
@@ -405,12 +414,14 @@ class PersonForm(ModelForm):
     birth_date = DateField()
 
 
+# TODO - add permissions
 class PersonCreateView(CreateView):
     template_name = 'new_person.html'
     form_class = PersonForm
     success_url = reverse_lazy('persons')
 
 
+# TODO - add permissions
 class PersonUpdateView(UpdateView):
     template_name = 'new_person.html'
     model = Person
@@ -418,6 +429,7 @@ class PersonUpdateView(UpdateView):
     success_url = reverse_lazy('persons')
 
 
+# TODO - add permissions
 class PersonDeleteView(DeleteView):
     template_name = 'person_delete_confirm.html'
     model = Person
@@ -431,12 +443,14 @@ class MovieForm(ModelForm):
         fields = '__all__'
 
 
+# TODO - add permissions
 class MovieCreateView(CreateView):
     template_name = 'new_movie.html'
     form_class = MovieForm
     success_url = reverse_lazy('movies')
 
 
+# TODO - add permissions
 class MovieUpdateView(UpdateView):
     template_name = 'new_movie.html'
     model = Movie
@@ -444,7 +458,24 @@ class MovieUpdateView(UpdateView):
     success_url = reverse_lazy('movies')
 
 
+# TODO - add permissions
 class MovieDeleteView(DeleteView):
     template_name = 'movie_delete_confirm.html'
     model = Movie
     success_url = reverse_lazy('movies')
+
+
+def rate_movie(request, movie_id, rating):
+    # TODO - každý uživatel by měl být schopný hodnotit pouze jednou
+    movie = Movie.objects.get(pk=movie_id)
+    user = request.user
+    rating = rating
+    Rating.objects.create(movie=movie, user=user, rating=rating)
+    genres = Genre.objects.filter(movies=movie)
+    countries = Country.objects.filter(movies=movie)
+    actors = Person.objects.filter(acting_in_movies=movie)
+    directors = Person.objects.filter(directing_movies=movie)
+    previous_part = Movie.previous_part
+    context = {'movie': movie, 'genres': genres, 'countries': countries,
+               'actors': actors, 'directors': directors}
+    return render(request, template_name='movie.html', context=context)

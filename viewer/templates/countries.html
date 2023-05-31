@@ -5,13 +5,19 @@ List of countries
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'new_country' %}">Create new country.</a>
+{% if perms.viewer.add_country %}
+    <a href="{% url 'new_country' %}">Create new country.</a>
+{% endif %}
 <h2>List of all countries:</h2>
   <ul>
       {% for country in countries %}
         <li>{{ country }}
-            <a href="{% url 'country_update' country.id %}">edit</a>
-            <a href="{% url 'country_delete' country.id %}">delete</a>
+            {% if perms.viewer.change_country %}
+                <a href="{% url 'country_update' country.id %}">edit</a>
+            {% endif %}
+            {% if perms.viewer.delete_country %}
+                <a href="{% url 'country_delete' country.id %}">delete</a>
+            {% endif %}
         </li>
       {% empty %}
         <li>List is empty</li>
