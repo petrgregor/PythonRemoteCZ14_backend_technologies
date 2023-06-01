@@ -15,5 +15,8 @@
     {% else %}
       <li><a href="{% url 'login' %}">Login</a></li>
     {% endif %}
+    {% if request.user.is_staff %}
+      <li><a href="/admin/">admin</a></li>
+    {% endif %}
   </ul>
 </nav>

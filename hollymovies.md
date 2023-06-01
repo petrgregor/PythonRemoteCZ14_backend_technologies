@@ -37,9 +37,9 @@ Funkcionalita:
   -[x] přidávání nového filmu
   -[x] přidávání nového herce
   -[x] přidávání nového režiséra
-  - přihlášený uživatel:
-    - hodnotit (pouze jednou)
-    - komentovat
+- přihlášený uživatel:
+  - hodnotit (pouze jednou)
+  - komentovat
 - notifikace (pro nově přidaný film)
 -[x] vyhledávání
   -[x] dle originálního názvu filmu

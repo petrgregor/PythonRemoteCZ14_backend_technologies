@@ -20,7 +20,7 @@ from accounts.views import SignUpView
 from viewer.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
 
     path('hello/<s>/', hello),
     path('hello2', hello2),
@@ -72,5 +72,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # login, logout, change password,...
 
     path('movie_rate/<movie_id>/<rating>/', rate_movie, name='rate_movie'),
+    path('delete_rating/<movie_id>/', delete_rating, name='delete_rating'),
 
 ]

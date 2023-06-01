@@ -3,6 +3,7 @@ from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import ValidationError
+from django.db.models import Avg
 from django.forms import Form, CharField, ModelForm, DateField, DateInput
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -137,8 +138,17 @@ def movie(request, pk):
     actors = Person.objects.filter(acting_in_movies=movie)
     directors = Person.objects.filter(directing_movies=movie)
     previous_part = Movie.previous_part
+    user = request.user
+    rating = None
+    if Rating.objects.filter(movie=movie, user=user).count() > 0:
+        user_rating = Rating.objects.get(movie=movie, user=user)
+        rating = user_rating.rating
+
+    # průměrné hodnocení
+    avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
     context = {'movie': movie, 'genres': genres, 'countries': countries,
-               'actors': actors, 'directors': directors}
+               'actors': actors, 'directors': directors, 'rating': rating,
+               'avg_rating': avg_rating['rating__avg']}
     return render(request, template_name='movie.html', context=context)
 
 
@@ -466,16 +476,50 @@ class MovieDeleteView(DeleteView):
 
 
 def rate_movie(request, movie_id, rating):
-    # TODO - každý uživatel by měl být schopný hodnotit pouze jednou
     movie = Movie.objects.get(pk=movie_id)
     user = request.user
-    rating = rating
-    Rating.objects.create(movie=movie, user=user, rating=rating)
+    # rating = rating
+    if Rating.objects.filter(movie=movie, user=user).count() > 0:  # pokud už daný uživatel pro tento film hodnotil
+        user_rating = Rating.objects.get(movie=movie, user=user)
+        user_rating.rating = rating  # tak aktualizojeme hodnotu (nové hodnocení)
+        user_rating.save()
+    else:  # pokud ještě nehodnotil
+        Rating.objects.create(movie=movie, user=user, rating=rating)  # vytvoříme nový záznam
+
+    rating = None
+    if Rating.objects.filter(movie=movie, user=user).count() > 0:
+        user_rating = Rating.objects.get(movie=movie, user=user)
+        rating = user_rating.rating
     genres = Genre.objects.filter(movies=movie)
     countries = Country.objects.filter(movies=movie)
     actors = Person.objects.filter(acting_in_movies=movie)
     directors = Person.objects.filter(directing_movies=movie)
     previous_part = Movie.previous_part
+    # průměrné hodnocení
+    avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
     context = {'movie': movie, 'genres': genres, 'countries': countries,
-               'actors': actors, 'directors': directors}
+               'actors': actors, 'directors': directors, 'rating': rating,
+               'avg_rating': avg_rating['rating__avg']}
+    return render(request, template_name='movie.html', context=context)
+
+
+def delete_rating(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    user = request.user
+    if Rating.objects.filter(movie=movie, user=user).count() > 0:
+        user_rating = Rating.objects.get(movie=movie, user=user)
+        user_rating.delete()
+
+    genres = Genre.objects.filter(movies=movie)
+    countries = Country.objects.filter(movies=movie)
+    actors = Person.objects.filter(acting_in_movies=movie)
+    directors = Person.objects.filter(directing_movies=movie)
+    previous_part = Movie.previous_part
+    rating = None
+
+    # průměrné hodnocení
+    avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
+    context = {'movie': movie, 'genres': genres, 'countries': countries,
+               'actors': actors, 'directors': directors, 'rating': rating,
+               'avg_rating': avg_rating['rating__avg']}
     return render(request, template_name='movie.html', context=context)
