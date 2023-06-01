@@ -2,6 +2,7 @@ from datetime import datetime, date
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db.models import Avg
 from django.forms import Form, CharField, ModelForm, DateField, DateInput
@@ -11,7 +12,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
 
-from viewer.models import Movie, Person, Genre, Country, Rating
+from viewer.models import Movie, Person, Genre, Country, Rating, Comment
 
 
 # regular expression
@@ -140,15 +141,37 @@ def movie(request, pk):
     previous_part = Movie.previous_part
     user = request.user
     rating = None
-    if Rating.objects.filter(movie=movie, user=user).count() > 0:
+    if user.is_authenticated and Rating.objects.filter(movie=movie, user=user).count() > 0:
         user_rating = Rating.objects.get(movie=movie, user=user)
         rating = user_rating.rating
 
     # průměrné hodnocení
     avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
+
+    if request.method == 'POST':
+        new_comment = request.POST.get('comment')
+
+        # první varianta aktualizace komentáře
+        """
+        if Comment.objects.filter(movie=movie, user=user).count() > 0:  # pokud již komentář existuje
+            user_comment = Comment.objects.get(movie=movie, user=user)
+            user_comment.comment = new_comment  # tak komentář aktualizujeme
+            user_comment.save()
+        else:  # pokud uživatel zadává první komentář k tomuto filmu
+            Comment.objects.create(movie=movie, user=user, comment=new_comment)
+        """
+
+        # druhá (lepší) varianta aktualizace komentáře
+        user_comment = Comment.objects.get_or_create(movie=movie, user=user)[0]
+        user_comment.comment = new_comment
+        user_comment.save()
+
+
+    comments = Comment.objects.filter(movie=movie)
+
     context = {'movie': movie, 'genres': genres, 'countries': countries,
                'actors': actors, 'directors': directors, 'rating': rating,
-               'avg_rating': avg_rating['rating__avg']}
+               'avg_rating': avg_rating['rating__avg'], 'comments': comments}
     return render(request, template_name='movie.html', context=context)
 
 
@@ -475,21 +498,20 @@ class MovieDeleteView(DeleteView):
     success_url = reverse_lazy('movies')
 
 
+@login_required
 def rate_movie(request, movie_id, rating):
     movie = Movie.objects.get(pk=movie_id)
     user = request.user
     # rating = rating
-    if Rating.objects.filter(movie=movie, user=user).count() > 0:  # pokud už daný uživatel pro tento film hodnotil
+    rating = None
+    if user.is_authenticated and Rating.objects.filter(movie=movie, user=user).count() > 0:  # pokud už daný uživatel pro tento film hodnotil
         user_rating = Rating.objects.get(movie=movie, user=user)
         user_rating.rating = rating  # tak aktualizojeme hodnotu (nové hodnocení)
         user_rating.save()
+        rating = user_rating.rating
     else:  # pokud ještě nehodnotil
         Rating.objects.create(movie=movie, user=user, rating=rating)  # vytvoříme nový záznam
 
-    rating = None
-    if Rating.objects.filter(movie=movie, user=user).count() > 0:
-        user_rating = Rating.objects.get(movie=movie, user=user)
-        rating = user_rating.rating
     genres = Genre.objects.filter(movies=movie)
     countries = Country.objects.filter(movies=movie)
     actors = Person.objects.filter(acting_in_movies=movie)
@@ -517,9 +539,36 @@ def delete_rating(request, movie_id):
     previous_part = Movie.previous_part
     rating = None
 
+    comments = Comment.objects.filter(movie=movie)
+
     # průměrné hodnocení
     avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
     context = {'movie': movie, 'genres': genres, 'countries': countries,
                'actors': actors, 'directors': directors, 'rating': rating,
-               'avg_rating': avg_rating['rating__avg']}
+               'avg_rating': avg_rating['rating__avg'], 'comments': comments}
+    return render(request, template_name='movie.html', context=context)
+
+
+def delete_comment(request, movie_id, user_id):
+    movie = Movie.objects.get(id=movie_id)
+    user = User.objects.get(id=user_id)
+
+    if Comment.objects.filter(movie=movie, user=user).count() > 0:
+        user_comment = Comment.objects.get(movie=movie, user=user)
+        user_comment.delete()
+
+    genres = Genre.objects.filter(movies=movie)
+    countries = Country.objects.filter(movies=movie)
+    actors = Person.objects.filter(acting_in_movies=movie)
+    directors = Person.objects.filter(directing_movies=movie)
+    previous_part = Movie.previous_part
+    rating = None
+
+    comments = Comment.objects.filter(movie=movie)
+
+    # průměrné hodnocení
+    avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
+    context = {'movie': movie, 'genres': genres, 'countries': countries,
+               'actors': actors, 'directors': directors, 'rating': rating,
+               'avg_rating': avg_rating['rating__avg'], 'comments': comments}
     return render(request, template_name='movie.html', context=context)

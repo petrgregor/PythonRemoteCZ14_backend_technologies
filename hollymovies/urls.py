@@ -74,4 +74,6 @@ urlpatterns = [
     path('movie_rate/<movie_id>/<rating>/', rate_movie, name='rate_movie'),
     path('delete_rating/<movie_id>/', delete_rating, name='delete_rating'),
 
+    path('delete_comment/<movie_id>/<user_id>/', delete_comment, name='delete_comment'),
+
 ]

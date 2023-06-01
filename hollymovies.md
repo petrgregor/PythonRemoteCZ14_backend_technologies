@@ -10,7 +10,7 @@ Funkcionalita:
   -[x] rok natočení
   - dostupnost (streamovací platformy)
   -[x] popis
-  - hodnocení
+  -[x] hodnocení
   -[x] státy
   -[x] jazyk
   - film/seriál
@@ -37,12 +37,30 @@ Funkcionalita:
   -[x] přidávání nového filmu
   -[x] přidávání nového herce
   -[x] přidávání nového režiséra
-- přihlášený uživatel:
-  - hodnotit (pouze jednou)
-  - komentovat
+-[x] přihlášený uživatel:
+  -[x] hodnotit (pouze jednou)
+  -[x] komentovat (pouze jednou)
 - notifikace (pro nově přidaný film)
 -[x] vyhledávání
   -[x] dle originálního názvu filmu
   -[x] dle českého názvu filmu
   -[x] dle jména a příjmení herce/režiséra
   -[x] dle textu v popisu
+
+## Úkoly
+- vyřešit pohlaví u Person (Male/Female/Unknown/Non-binary)
+- Add permissions (viz TODO)
+- Změnit vzhled (css)
+- Notifikace (nově přidaný film)
+- uspořádat seznam filmů podle hodnocení
+- upravit Profile (accounts/models.py)
+  - zobrazit podrobnosti uživatele
+  - můžete něco i přidat do modelu
+    - např. public - jestli je profil veřejný
+  - seznam všech uživatelů (zobrazí se pouze pro Staff)
+  - seznam veřejných profilů (zobrazí se všem přihlášeným uživatelům)
+- cokoliv vás napadne 
+
+## Dále probrat
+- REST API
+- Testování

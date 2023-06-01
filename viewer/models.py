@@ -65,7 +65,6 @@ class Movie(Model):
     def __str__(self):
         return f"{self.title} ({self.year})"
 
-    # TODO - spočítat průměrné hodnocení filmu
 
 
 class Rating(Model):
@@ -90,7 +89,7 @@ class Comment(Model):
     updated = DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['movie', 'user']
+        ordering = ['movie', '-created']
 
     def __str__(self):
         return f"{self.movie.title} - {self.user.username}: {self.comment[:50]}"

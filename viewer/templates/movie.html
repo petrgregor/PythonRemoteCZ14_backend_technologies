@@ -57,49 +57,85 @@
   <div class="movie-updated">
     Poslední změna: {{ movie.updated }}
   </div>
-  <div class="movie-user-rating">
-    Rate:
-    {% if rating == '0' %}
-      <a href="{% url 'rate_movie' movie.id 0 %}">👎</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 0 %}">🖓</a>
-    {% endif %}
-    {% if rating > 0 %}
-      <a href="{% url 'rate_movie' movie.id 20 %}">⭐</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 20 %}">☆</a>
-    {% endif %}
-    {% if rating > 20 %}
-      <a href="{% url 'rate_movie' movie.id 40 %}">⭐</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 40 %}">☆</a>
-    {% endif %}
-    {% if rating > 40 %}
-      <a href="{% url 'rate_movie' movie.id 60 %}">⭐</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 60 %}">☆</a>
-    {% endif %}
-    {% if rating > 60 %}
-      <a href="{% url 'rate_movie' movie.id 80 %}">⭐</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 80 %}">☆</a>
-    {% endif %}
-    {% if rating > 80 %}
-      <a href="{% url 'rate_movie' movie.id 100 %}">⭐</a>
-    {% else %}
-      <a href="{% url 'rate_movie' movie.id 100 %}">☆</a>
-    {% endif %}
-    {% if rating %}
-      your rating is: {{ rating }}
-      <a href="{% url 'delete_rating' movie.id %}">delete your rate</a>
-    {% else %}
-      you did not rate this movie yet.
-    {% endif %}
-    <br>
+  {% if request.user.is_authenticated %}
+    <div class="movie-user-rating">
+      Rate:
+      {% if rating == 0 %}
+        <a href="{% url 'rate_movie' movie.id 0 %}">👎</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 0 %}">🖓</a>
+      {% endif %}
+      {% if rating > 0 %}
+        <a href="{% url 'rate_movie' movie.id 20 %}">⭐</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 20 %}">☆</a>
+      {% endif %}
+      {% if rating > 20 %}
+        <a href="{% url 'rate_movie' movie.id 40 %}">⭐</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 40 %}">☆</a>
+      {% endif %}
+      {% if rating > 40 %}
+        <a href="{% url 'rate_movie' movie.id 60 %}">⭐</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 60 %}">☆</a>
+      {% endif %}
+      {% if rating > 60 %}
+        <a href="{% url 'rate_movie' movie.id 80 %}">⭐</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 80 %}">☆</a>
+      {% endif %}
+      {% if rating > 80 %}
+        <a href="{% url 'rate_movie' movie.id 100 %}">⭐</a>
+      {% else %}
+        <a href="{% url 'rate_movie' movie.id 100 %}">☆</a>
+      {% endif %}
+      {% if rating != None %}
+        your rating is: {{ rating }}
+        <a href="{% url 'delete_rating' movie.id %}">delete your rate</a>
+      {% else %}
+        you did not rate this movie yet.
+      {% endif %}
+      <br>
+    </div>
+  {% endif %}
+  <div class="movie-avg-rating">
     {% if avg_rating != None %}
       Average rating is: {{ avg_rating }}
     {% else %}
       Still no rating.
     {% endif %}
+  </div>
+  <div class="movie-comments">
+    {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'movie' movie.id %}">
+      {% csrf_token %}
+      <label for="comment">Comment:</label>
+      <input type="text" id="comment" name="comment">
+    </form>
+    {% endif %}
+    {% for comment in comments %}
+      <div class="movie-comment">
+        <div class="movie-comment-text">
+          {{ comment.comment }}
+        </div>
+        <div class="movie-comment-user">
+          {{ comment.user }}
+        </div>
+        <div class="movie-comment-created">
+          created: {{ comment.created}}
+        </div>
+        <div class="movie-comment-updated">
+          updated: {{ comment.updated }}
+        </div>
+        {% if request.user == comment.user or request.user.is_staff %}
+          <div class="movie-comment-delete">
+            <a href="{% url 'delete_comment' movie.id comment.user.id %}">delete</a>
+          </div>
+        {% endif %}
+      </div>
+    {% empty %}
+      No comments.
+    {% endfor %}
   </div>
 {% endblock %}

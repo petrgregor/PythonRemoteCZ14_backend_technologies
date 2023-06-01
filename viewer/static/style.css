@@ -16,3 +16,14 @@ nav ul {
 nav li {
     display: inline-block;
 }
+
+.movie-comments {
+    width: 90%;
+    background-color: lightblue;
+    border: 2px darkolivegreen;
+}
+
+.movie-comment {
+    width: 90%;
+    background-color: cornflowerblue;
+}
