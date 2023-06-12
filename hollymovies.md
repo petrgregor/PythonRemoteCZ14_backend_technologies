@@ -51,7 +51,7 @@ Funkcionalita:
 - vyřešit pohlaví u Person (Male/Female/Unknown/Non-binary)
 - Add permissions (viz TODO)
 - Změnit vzhled (css)
-- Notifikace (nově přidaný film)
+- Notifikace (nově přidaný film) (AJAX)
 - uspořádat seznam filmů podle hodnocení
 - upravit Profile (accounts/models.py)
   - zobrazit podrobnosti uživatele
@@ -62,5 +62,5 @@ Funkcionalita:
 - cokoliv vás napadne 
 
 ## Dále probrat
-- REST API
+-[x] REST API
 - Testování

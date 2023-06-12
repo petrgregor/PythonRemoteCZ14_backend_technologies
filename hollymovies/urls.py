@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import api.views
 from accounts.views import SignUpView
 from viewer.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -75,5 +77,16 @@ urlpatterns = [
     path('delete_rating/<movie_id>/', delete_rating, name='delete_rating'),
 
     path('delete_comment/<movie_id>/<user_id>/', delete_comment, name='delete_comment'),
+
+    # API
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # path('api/movies/', api.views.Movies.as_view({'get': 'list'})),
+    path('api/movies/', api.views.Movies.as_view()),
+    path('api/movie/<pk>/', api.views.Movie.as_view()),
+    path('api/persons/', api.views.Persons.as_view()),
+    path('api/person/<pk>/', api.views.Person.as_view()),
+    path('api/actors/', api.views.Actors.as_view()),
+    path('api/action_movies/', api.views.ActionMovies.as_view()),
+    path('api/comments/', api.views.Comments.as_view()),
 
 ]

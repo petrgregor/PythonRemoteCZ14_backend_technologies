@@ -8,15 +8,17 @@
     <li><a href="{% url 'genres' %}">Genres</a></li>
     <li><a href="{% url 'persons' %}">Persons</a></li>
     {% if request.user.is_authenticated %}
-      <li>
-        {{ request.user.username }}
+      <li class="last-item">
+        <span class="user-name">
+          {{ request.user.username }}
+        </span>
         <a href="{% url 'logout' %}">Logout</a>
       </li>
     {% else %}
-      <li><a href="{% url 'login' %}">Login</a></li>
+      <li class="last-item"><a href="{% url 'login' %}">Login</a></li>
     {% endif %}
     {% if request.user.is_staff %}
-      <li><a href="/admin/">admin</a></li>
+      <li class="last-item"><a href="/admin/">admin</a></li>
     {% endif %}
   </ul>
 </nav>

@@ -40,8 +40,12 @@ INSTALLED_APPS = [
 
     'django_dump_load_utf8',
 
+    'rest_framework',
+    'rest_framework.authtoken',
+
     'viewer',
     'accounts',
+    'api',
 ]
 
 MIDDLEWARE = [
