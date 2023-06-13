@@ -15,7 +15,7 @@
         <a href="{% url 'logout' %}">Logout</a>
       </li>
     {% else %}
-      <li class="last-item"><a href="{% url 'login' %}">Login</a></li>
+      <li class="last-item"><a href="{% url 'login' %}" id="login-id">Login</a></li>
     {% endif %}
     {% if request.user.is_staff %}
       <li class="last-item"><a href="/admin/">admin</a></li>

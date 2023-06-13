@@ -475,6 +475,8 @@ class MovieForm(ModelForm):
         model = Movie
         fields = '__all__'
 
+    # TODO - clean methods
+
 
 # TODO - add permissions
 class MovieCreateView(CreateView):

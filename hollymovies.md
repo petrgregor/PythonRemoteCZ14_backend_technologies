@@ -63,4 +63,4 @@ Funkcionalita:
 
 ## Dále probrat
 -[x] REST API
-- Testování
+-[x] Testování
