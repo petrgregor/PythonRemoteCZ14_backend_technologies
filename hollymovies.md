@@ -54,7 +54,7 @@ Funkcionalita:
 - Notifikace (nově přidaný film) (AJAX)
 - uspořádat seznam filmů podle hodnocení
 - upravit Profile (accounts/models.py)
-  - zobrazit podrobnosti uživatele
+  -[x] zobrazit podrobnosti uživatele
   - můžete něco i přidat do modelu
     - např. public - jestli je profil veřejný
   - seznam všech uživatelů (zobrazí se pouze pro Staff)

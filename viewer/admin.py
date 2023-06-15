@@ -15,7 +15,7 @@ class MovieAdmin(ModelAdmin):
         (
             'External Information',
             {
-                'fields': ['genre', 'year', 'country', 'language', 'length'],
+                'fields': ['genre', 'year', 'country', 'language', 'length', 'image_url', 'image'],
                 'description': (
                     'These fields are going to be filled with data parsed '
                     'from external databases.'

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Model, CharField, DateField, BooleanField, ForeignKey, SET_NULL, DateTimeField, \
-    PositiveIntegerField, TextField, CASCADE, ManyToManyField
+    PositiveIntegerField, TextField, CASCADE, ManyToManyField, ImageField
 
 
 class Country(Model):
@@ -56,6 +56,8 @@ class Movie(Model):
     pg_rating = PositiveIntegerField(null=True)
     length = PositiveIntegerField(null=True)
     previous_part = ForeignKey("Movie", null=True, blank=True, on_delete=SET_NULL)
+    image_url = CharField(max_length=256, null=True, blank=True)
+    image = ImageField(null=True, blank=True, upload_to="static")
     created = DateTimeField(auto_now_add=True)
     updated = DateTimeField(auto_now=True)
 
