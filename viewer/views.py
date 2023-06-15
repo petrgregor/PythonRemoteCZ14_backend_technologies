@@ -588,3 +588,5 @@ def profile(request, pk):
     profile = Profile.objects.get(user=User.objects.get(id=pk))
     context = {'profile': profile}
     return render(request, 'profile.html', context)
+
+

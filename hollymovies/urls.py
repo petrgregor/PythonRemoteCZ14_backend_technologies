@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 import api.views
-from accounts.views import SignUpView
+from accounts.views import SignUpView, ProfileCreateView
 from viewer.views import *
 
 
@@ -91,5 +91,5 @@ urlpatterns = [
 
     path('users/', users, name='users'),
     path('profile/<pk>/', profile, name='profile'),
-
+    path('new_profile/', ProfileCreateView.as_view(), name='new_profile'),
 ]
