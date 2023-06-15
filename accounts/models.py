@@ -9,4 +9,4 @@ class Profile(Model):
     biography = TextField()
 
     def __str__(self):
-        return self.user
+        return f"{self.user.username}"

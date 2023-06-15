@@ -89,4 +89,6 @@ urlpatterns = [
     path('api/action_movies/', api.views.ActionMovies.as_view()),
     path('api/comments/', api.views.Comments.as_view()),
 
+    path('users/', users, name='users'),
+
 ]

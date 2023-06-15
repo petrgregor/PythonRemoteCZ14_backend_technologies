@@ -7,6 +7,7 @@
     <li><a href="{% url 'countries' %}">Countries</a></li>
     <li><a href="{% url 'genres' %}">Genres</a></li>
     <li><a href="{% url 'persons' %}">Persons</a></li>
+    <li><a href="{% url 'users' %}">Users</a></li>
     {% if request.user.is_authenticated %}
       <li class="last-item">
         <span class="user-name">

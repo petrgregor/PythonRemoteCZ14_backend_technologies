@@ -101,7 +101,7 @@
   {% endif %}
   <div class="movie-avg-rating">
     {% if avg_rating != None %}
-      Average rating is: {{ avg_rating }}
+      Average rating is: {{ avg_rating|floatformat:"1" }}
     {% else %}
       Still no rating.
     {% endif %}

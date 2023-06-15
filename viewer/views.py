@@ -505,7 +505,7 @@ def rate_movie(request, movie_id, rating):
     movie = Movie.objects.get(pk=movie_id)
     user = request.user
     # rating = rating
-    rating = None
+    # rating = None
     if user.is_authenticated and Rating.objects.filter(movie=movie, user=user).count() > 0:  # pokud už daný uživatel pro tento film hodnotil
         user_rating = Rating.objects.get(movie=movie, user=user)
         user_rating.rating = rating  # tak aktualizojeme hodnotu (nové hodnocení)
@@ -519,11 +519,12 @@ def rate_movie(request, movie_id, rating):
     actors = Person.objects.filter(acting_in_movies=movie)
     directors = Person.objects.filter(directing_movies=movie)
     previous_part = Movie.previous_part
+    comments = Comment.objects.filter(movie=movie)
     # průměrné hodnocení
     avg_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))
     context = {'movie': movie, 'genres': genres, 'countries': countries,
                'actors': actors, 'directors': directors, 'rating': rating,
-               'avg_rating': avg_rating['rating__avg']}
+               'avg_rating': avg_rating['rating__avg'], 'comments': comments}
     return render(request, template_name='movie.html', context=context)
 
 
@@ -574,3 +575,9 @@ def delete_comment(request, movie_id, user_id):
                'actors': actors, 'directors': directors, 'rating': rating,
                'avg_rating': avg_rating['rating__avg'], 'comments': comments}
     return render(request, template_name='movie.html', context=context)
+
+
+def users(request):
+    users = User.objects.all()
+    context = {'users': users}
+    return render(request, 'users.html', context)
