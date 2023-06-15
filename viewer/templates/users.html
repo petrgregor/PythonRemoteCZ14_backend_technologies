@@ -8,11 +8,11 @@ List of users
 <h2>List of all users:</h2>
   <ul>
       {% for user in users %}
-        <li> {{ user }}
+        <li>
             {% if user.profile %}
-            <a href="{% url 'profile' user.id %}">profil</a>
+                <a href="{% url 'profile' user.id %}">{{ user }}</a>
             {% else %}
-
+                {{ user }}
             {% endif %}
         </li>
       {% empty %}
