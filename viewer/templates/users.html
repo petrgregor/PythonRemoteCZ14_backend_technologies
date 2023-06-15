@@ -8,7 +8,12 @@ List of users
 <h2>List of all users:</h2>
   <ul>
       {% for user in users %}
-        <li>{{ user }}
+        <li> {{ user }}
+            {% if user.profile %}
+            <a href="{% url 'profile' user.id %}">profil</a>
+            {% else %}
+
+            {% endif %}
         </li>
       {% empty %}
         <li>List is empty</li>

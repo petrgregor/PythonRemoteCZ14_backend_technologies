@@ -90,5 +90,6 @@ urlpatterns = [
     path('api/comments/', api.views.Comments.as_view()),
 
     path('users/', users, name='users'),
+    path('profile/<pk>/', profile, name='profile'),
 
 ]

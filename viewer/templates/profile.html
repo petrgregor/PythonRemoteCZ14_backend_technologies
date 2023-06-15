@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ profile.user.username}}
+{% endblock %}
+
+{% block content %}
+<div class="profile-names">
+    <span class="profile-username"> {{ profile.user.username}} </span>
+    <span class="profile-first-name"> {{ profile.user.first_name}} </span>
+    <span class="profile-last-name"> {{ profile.user.last_name }} </span>
+</div>
+<div class="profile-biography">
+  {{ profile.biography }}
+</div>
+
+{% endblock %}

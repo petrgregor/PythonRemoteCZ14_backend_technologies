@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView
 
+from accounts.models import Profile
 from viewer.models import Movie, Person, Genre, Country, Rating, Comment
 
 
@@ -579,5 +580,11 @@ def delete_comment(request, movie_id, user_id):
 
 def users(request):
     users = User.objects.all()
-    context = {'users': users}
+    profiles = Profile.objects.all()
+    context = {'users': users, 'profiles': profiles}
     return render(request, 'users.html', context)
+
+def profile(request, pk):
+    profile = Profile.objects.get(user=User.objects.get(id=pk))
+    context = {'profile': profile}
+    return render(request, 'profile.html', context)
